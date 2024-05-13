@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "furrow1k"
-version = "0.1.15"
+version = "1.0.0"
 description = "Help calculate percentage of salary to contribute to 401k"
 authors = ["Frank Cao"]
 license = "MIT"

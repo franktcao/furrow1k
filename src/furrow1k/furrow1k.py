@@ -12,6 +12,8 @@ class Question(BaseModel):
     question: str
     answer: float = 100_000
     default: float = 100_000
+    i_question: int = None
+    n_questions: int = None
 
     @model_validator(mode="after")
     def validate_answer(self):
@@ -27,17 +29,20 @@ class Question(BaseModel):
         # Offset by one since answers are between 1 and `len(self.options)`
         return self.answer
 
-class Form(BaseModel):
+class Questionaire(BaseModel):
     questions: list[Question]
 
-class QuestionAnswer(BaseModel):
+    @property
+    def n_questions(self) -> int:
+        return len(self.questions)
+
+
+class QuestionAnswer(Question):
     model_config = ConfigDict(validate_assignment=True)  
     question: str
     options: list[str]
     answer: int = None
     default: int = 1
-    i_question: int = None
-    n_questions: int = None
 
     @property
     def i_options(self):
@@ -61,7 +66,8 @@ class QuestionAnswer(BaseModel):
         # Offset by one since answers are between 1 and `len(self.options)`
         return self.options[self.answer - 1]
 
-class QuestionAnswerFree(BaseModel):
+
+class QuestionAnswerFree(Question):
     model_config = ConfigDict(validate_assignment=True)  
     question: str
     answer: float = 100_000
